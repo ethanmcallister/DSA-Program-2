@@ -1,6 +1,8 @@
 // ******************ERRORS********************************
 // Throws UnderflowException as appropriate
 
+import javax.swing.tree.TreeNode;
+
 import com.sun.source.tree.BinaryTree;
 
 class UnderflowException extends RuntimeException {
@@ -79,11 +81,12 @@ public class Tree {
     }
 
     /**
+     * This routine runs in O(??)
      * String representation of tree, with name and
     the keys (in order) of a binary tree, given the root.
-     * @param root
-     * @param level
-     * @return
+     * @param root root node
+     * @param level level of the root node
+     * @return sideways tree representation
      */
     public String toString(BinaryNode root, int level) {
         if (root == null) {
@@ -132,10 +135,37 @@ public class Tree {
 
     /**
      * The complexity of finding the deepest node is O(???)
-     * @return
+     * @return deepest node, if tree is empty, return -1.
      */
     public Integer deepestNode() {
-        return -1;
+        if (root == null) {  // if empty tree, return -1
+            return -1;
+        }
+        return deepestNode(root, 0)[0];
+    }
+
+    // Recursive method to find the deepest node
+    private static int[] deepestNode(BinaryNode t, int depth) {
+        if (t == null) return new int[] {-1, depth - 1}; // Return -1 for value if node is null
+
+        // Recursively find the deepest node in left and right subtrees
+        int[] leftDeepest = deepestNode(t.left, depth + 1);
+        int[] rightDeepest = deepestNode(t.right, depth + 1);
+
+        // return the deeper element based on depth
+        if (rightDeepest[1] >= leftDeepest[1]) {
+            if (t.right != null) {
+                return new int[]{rightDeepest[0], rightDeepest[1]};
+            } else { 
+                return new int[]{t.element, rightDeepest[1]};
+            }
+        } else {
+            if (t.left != null) {
+                return new int[]{leftDeepest[0], leftDeepest[1]};
+            } else {
+                return new int[]{t.element, leftDeepest[1]};
+            }
+        }   
     }
 
     /**
