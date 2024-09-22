@@ -196,7 +196,14 @@ public class Tree {
      */
     public int nodesInLevel(int level) {
         System.out.println("nodesInLevel needs to return the nodes at " + level);
-        return 0;
+        
+        return nodesInLevel(root, 0, level, 0);
+    }
+
+    private static int nodesInLevel(BinaryNode t, int currLevel, int level, int numNodes) {
+        if (t == null) { return 0; }
+        if (currLevel == level) { return numNodes + 1; }
+        return nodesInLevel(t.left, currLevel + 1, level, numNodes) + nodesInLevel(t.right, currLevel + 1, level, numNodes);
     }
 
     /**
