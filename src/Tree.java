@@ -74,10 +74,17 @@ public class Tree {
         if (root == null)
             return treeName + " Empty tree";
 
-        return toString(root, 0);
+        return treeName + "\n" + toString(root, 0);
 //            return treeName + " Please write the code to print me";
     }
 
+    /**
+     * String representation of tree, with name and
+    the keys (in order) of a binary tree, given the root.
+     * @param root
+     * @param level
+     * @return
+     */
     public String toString(BinaryNode root, int level) {
         if (root == null) {
             return "";
@@ -139,7 +146,16 @@ public class Tree {
         flip(root);
     }
     private void flip(BinaryNode t){
+        if (t == null) {
+            return;
+        }
 
+        BinaryNode temp = t.left;
+        t.left = t.right;
+        t.right = temp;
+
+        flip(t.left);
+        flip(t.right);
     }
 
     /**
