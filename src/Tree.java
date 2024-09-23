@@ -347,16 +347,6 @@ public class Tree {
         root = null;
     }
 
-    /**
-     * Find the least common ancestor of two nodes
-     * @param a first node
-     * @param b second node
-     * @return String representation of ancestor
-     */
-    public BinaryNode lca(BinaryNode  t,Integer a, Integer b) {
-        return t;
-
-    }
     public Integer sumAll(){
         BinaryNode  r =   root;
         return sumAll(r);
@@ -368,11 +358,39 @@ public class Tree {
 
     public Integer lca(Integer a, Integer b) {
 
-         BinaryNode  l  = lca(root,a,b);
+         BinaryNode l = lca(root,a,b);
          if (l==null) return null;
          return l.element;
 
     }
+
+        /**
+     * Find the least common ancestor of two nodes
+     * @param a first node
+     * @param b second node
+     * @return String representation of ancestor
+     */
+    public BinaryNode lca(BinaryNode  t,Integer a, Integer b) {
+        if (t == null) { return null; }
+        if (a < t.element && b < t.element) {  // both a and b in left subtree
+            return lca(t.left, a, b); 
+        }
+        if (a > t.element && b > t.element) {  // both a nd b in right subtree
+            return lca(t.right, a, b);
+        }
+        // we found the lca if both exist... now we check if both exist
+        if ((existInTree(t, a)) && (existInTree(t, b))) { return t; }
+        return null;  // return null if both don't exist
+
+    }
+
+    private static boolean existInTree(BinaryNode t, int val) {
+        if (t == null) { return false; }
+        if (t.element == val) { return true; }
+        if (val < t.element) { return existInTree(t.left, val); }
+        return existInTree(t.right, val);
+    }
+
     /**
      * Balance the tree
      */
