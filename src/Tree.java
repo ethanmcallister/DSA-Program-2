@@ -446,6 +446,35 @@ public class Tree {
      * @param b highest value
      */
     public void keepRange(Integer a, Integer b) {
+        // recurse left and right
+        // if t.left is less than a and t.right is greater than b
+        //      set t.left and t.right to null if so
+        keepRange(root, a, b);
+        
+    }
+
+    private static BinaryNode keepRange(BinaryNode t, Integer a, Integer b) {
+        if (t == null) { return null; }
+
+        // go left then go right recursively
+        t.left = keepRange(t.left, a, b);
+        t.right = keepRange(t.right, a, b);
+
+        // t is too low
+        if (t.element < a) {
+            BinaryNode right = t.right;  // store next higher
+            t = null;  // remove the node
+            return right; // return the next highest (even if null)
+        }
+        // t is too high
+        if (t.element > b) {
+            BinaryNode left = t.left; // store the next lower
+            t = null;  // remove the node
+            return left;  // return the next lower (even if null)
+        }
+
+        return t;  // return since t is within range
+        
     }
 
     // Basic node stored in unbalanced binary  trees
