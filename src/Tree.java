@@ -1,6 +1,8 @@
 // ******************ERRORS********************************
 // Throws UnderflowException as appropriate
 
+import java.util.LinkedList;
+
 import javax.swing.tree.TreeNode;
 
 import com.sun.source.tree.BinaryTree;
@@ -395,7 +397,46 @@ public class Tree {
      * Balance the tree
      */
     public void balanceTree() {
-        //root = balanceTree(root);
+        root = balanceTree(root);
+    }
+    
+    private static BinaryNode balanceTree(BinaryNode t) {
+        // get in order list of nodes (inorder traversal)
+        BinaryNode[] orderedTree = new BinaryNode[1000];
+        int orderedTreeLength = inOrderTraversal(t, orderedTree, 0);
+
+        // rebuild tree
+        t = rebuildTree(orderedTree, 0, orderedTreeLength - 1);
+
+        return t;
+    }
+
+    private static int inOrderTraversal(BinaryNode t, BinaryNode[] orderedList, int orderedListLength) {
+        if (t == null) { return orderedListLength; }
+
+        // go to the left
+        orderedListLength = inOrderTraversal(t.left, orderedList, orderedListLength);
+        // add to the ordered list
+        orderedList[orderedListLength] = t;
+        orderedListLength++;
+        // go to the right
+        orderedListLength = inOrderTraversal(t.right, orderedList, orderedListLength);
+
+        return orderedListLength;
+    }
+
+    private static BinaryNode rebuildTree(BinaryNode[] inorderNodes, int startIdx, int endIdx) {
+        if (startIdx > endIdx) { return null; }  // when start and end indeces overlap
+        
+        // get the mid node
+        int mid = (startIdx + endIdx) / 2;
+        BinaryNode midNode = inorderNodes[mid];
+
+        // rebuild tree to the left and right by recursing and updating start and end indeces.
+        midNode.left = rebuildTree(inorderNodes, startIdx, mid - 1);
+        midNode.right = rebuildTree(inorderNodes, mid + 1, endIdx);
+
+        return midNode;
     }
 
     /**
