@@ -212,6 +212,31 @@ public class Tree {
      */
     public void printAllPaths() {
         System.out.println("printAllPaths does nothing");
+        int[] path = new int[1000];  // give myself room
+        printAllPaths(root, path, 0);
+    }
+
+    private static void printAllPaths(BinaryNode t, int[] path, int pathLength) {
+        if (t == null) { return; }  // if the root is null
+        
+        // append element to the array
+        path[pathLength] = t.element;
+        pathLength++;
+
+        // if its a leaf node, print the path
+        if (t.left == null && t.right == null) {
+            printPath(path, pathLength);
+        } else {  // otherwise recurse to the left and right
+            printAllPaths(t.left, path, pathLength);
+            printAllPaths(t.right, path, pathLength);
+        }
+    }
+
+    private static void printPath(int[] path, int pathLength) {
+        for (int i = 0; i < pathLength; i++) {
+            System.out.print(path[i] + " ");
+        }
+        System.out.println();
     }
 
 
