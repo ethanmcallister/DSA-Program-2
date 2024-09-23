@@ -211,9 +211,11 @@ public class Tree {
      * The complexity of printAllPaths is O(???)
      */
     public void printAllPaths() {
-        System.out.println("printAllPaths does nothing");
-        int[] path = new int[1000];  // give myself room
-        printAllPaths(root, path, 0);
+        if (root == null) { System.out.println("printAllPaths does nothing"); }
+        else {
+            int[] path = new int[1000];  // give myself room
+            printAllPaths(root, path, 0);
+        }
     }
 
     private static void printAllPaths(BinaryNode t, int[] path, int pathLength) {
@@ -316,6 +318,24 @@ public class Tree {
      * @param sum: minimum path sum allowed in final tree
      */
     public void pruneK(Integer sum) {
+        root = pruneK(root, sum, 0);
+    }
+
+    private static BinaryNode pruneK(BinaryNode t, int sum, int currSum) {
+        if (t == null) { return null; }  // if root is null, return null
+
+        currSum += t.element;
+        
+        // recurse to left and right
+        t.left = pruneK(t.left, sum, currSum);
+        t.right = pruneK(t.right, sum, currSum);
+
+        if (t.left == null && t.right == null && currSum < sum) {
+            return null;
+        }
+
+        // return the node
+        return t;
     }
 
     /**
