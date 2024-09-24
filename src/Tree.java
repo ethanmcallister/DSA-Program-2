@@ -251,7 +251,36 @@ public class Tree {
      */
     public Integer countBST() {
         if (root == null) return 0;
-        return -1;
+
+        boolean[] isBST = new boolean[1];
+        return countBST(root, isBST)[2];
+    }
+
+    private static int[] countBST(BinaryNode t, boolean[] isBST) {
+        if (t == null) { 
+            isBST[0] = true;
+            return new int[]{Integer.MIN_VALUE, Integer.MAX_VALUE, 0};
+        }
+        
+        boolean[] isLeftBST = new boolean[1];
+        boolean[] isRightBST = new boolean[1];
+
+        // recurse to the left and right, store its info in int[]
+        int[] leftTree = countBST(t.left, isLeftBST);
+        int[] rightTree = countBST(t.right, isRightBST);
+
+        // check if current tree is bst
+        isBST[0] = isLeftBST[0] && isRightBST[0] && t.element > leftTree[0] && t.element < rightTree[1];
+
+        // calculate new min and maxes
+        int newMin = Math.min(leftTree[1], t.element);
+        int newMax = Math.max(rightTree[0], t.element);
+
+        // compute current BST count
+        int currBSTCount = leftTree[2] + rightTree[2];
+        if (isBST[0]) { currBSTCount++; }
+
+        return new int[]{newMin, newMax, currBSTCount};
     }
 
     /**
