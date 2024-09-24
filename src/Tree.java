@@ -72,6 +72,7 @@ public class Tree {
     }
 
     /**
+     * This routine runs in O(n).
      * Return a string displaying the tree contents as a single line
      */
     public String toString() {
@@ -79,11 +80,11 @@ public class Tree {
             return treeName + " Empty tree";
 
         return treeName + "\n" + toString(root, 0);
-//            return treeName + " Please write the code to print me";
+
     }
 
     /**
-     * This routine runs in O(??)
+     * This routine runs in O(n).
      * String representation of tree, with name and
     the keys (in order) of a binary tree, given the root.
      * @param root root node
@@ -121,7 +122,7 @@ public class Tree {
 
     /**
      * Internal method to return a string of items in the tree in order
-     * This routine runs in O(??)
+     * This routine runs in O(n)
      *
      * @param t the node that roots the subtree.
      */
@@ -136,7 +137,7 @@ public class Tree {
 
 
     /**
-     * The complexity of finding the deepest node is O(???)
+     * The complexity of finding the deepest node is O(n).
      * @return deepest node, if tree is empty, return -1.
      */
     public Integer deepestNode() {
@@ -171,7 +172,7 @@ public class Tree {
     }
 
     /**
-     * The complexity of finding the flip is O(???)
+     * The complexity of finding the flip is O(n)
      * reverse left and right children recursively
      */
     public void flip() {
@@ -192,7 +193,7 @@ public class Tree {
 
     /**
      * Counts number of nodes in specified level
-     * The complexity of nodesInLevel is O(???)
+     * The complexity of nodesInLevel is O(n)
      * @param level Level in tree, root is zero
      * @return count of number of nodes at specified level
      */
@@ -209,8 +210,8 @@ public class Tree {
     }
 
     /**
-     * Print all paths from root to leaves
-     * The complexity of printAllPaths is O(???)
+     * Print all paths from root to leaves.
+     * The complexity of printAllPaths is O(nlogn) (assuming height of each path is log n)
      */
     public void printAllPaths() {
         if (root == null) { System.out.println("printAllPaths does nothing"); }
@@ -246,7 +247,7 @@ public class Tree {
 
     /**
      * Counts all non-null binary search trees embedded in tree
-     *  The complexity of countBST is O(???)
+     *  The complexity of countBST is O(n)
      * @return Count of embedded binary search trees
      */
     public Integer countBST() {
@@ -345,6 +346,7 @@ public class Tree {
         }
     }
     /**
+     * The big O complexity of this algorithm is: O(n).
      * Remove all paths from tree that sum to less than given value
      * @param sum: minimum path sum allowed in final tree
      */
@@ -387,6 +389,12 @@ public class Tree {
         return t.element + sumAll(t.left) + sumAll(t.right);
     }
 
+    /**
+     * The complexity of this routine is: O(logn). 
+     * @param a
+     * @param b
+     * @return
+     */
     public Integer lca(Integer a, Integer b) {
 
          BinaryNode l = lca(root,a,b);
@@ -395,13 +403,13 @@ public class Tree {
 
     }
 
-        /**
+    /**   
      * Find the least common ancestor of two nodes
      * @param a first node
      * @param b second node
      * @return String representation of ancestor
      */
-    public BinaryNode lca(BinaryNode  t,Integer a, Integer b) {
+    public BinaryNode lca(BinaryNode  t, Integer a, Integer b) {
         if (t == null) { return null; }
         if (a < t.element && b < t.element) {  // both a and b in left subtree
             return lca(t.left, a, b); 
@@ -423,6 +431,7 @@ public class Tree {
     }
 
     /**
+     * The complexity for this routine is: O(n).
      * Balance the tree
      */
     public void balanceTree() {
@@ -469,17 +478,13 @@ public class Tree {
     }
 
     /**
+     * The big O complexity for this routing is: O(n).
      * In a BST, keep only nodes between range
-     *
      * @param a lowest value
      * @param b highest value
      */
     public void keepRange(Integer a, Integer b) {
-        // recurse left and right
-        // if t.left is less than a and t.right is greater than b
-        //      set t.left and t.right to null if so
         keepRange(root, a, b);
-        
     }
 
     private static BinaryNode keepRange(BinaryNode t, Integer a, Integer b) {
